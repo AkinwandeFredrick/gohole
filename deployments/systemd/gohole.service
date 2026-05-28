@@ -1,0 +1,27 @@
+[Unit]
+Description=GoHole DNS Sinkhole
+Documentation=https://github.com/AkinwandeFredrick/gohole
+After=network.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=gohole
+Group=gohole
+WorkingDirectory=/opt/gohole
+ExecStart=/opt/gohole/gohole -config /etc/gohole/config.yaml
+Restart=on-failure
+RestartSec=5
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=gohole
+
+# Security hardening
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=strict
+ReadWritePaths=/var/lib/gohole
+AmbientCapabilities=CAP_NET_BIND_SERVICE
+
+[Install]
+WantedBy=multi-user.target

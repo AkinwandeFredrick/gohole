@@ -1,0 +1,23 @@
+version: "3.8"
+
+services:
+  gohole:
+    build:
+      context: ../..
+      dockerfile: deployments/docker/Dockerfile
+    container_name: gohole
+    restart: unless-stopped
+    network_mode: host         # Required for DNS on port 53
+    # Or use port mapping (less ideal for DNS):
+    # ports:
+    #   - "53:53/udp"
+    #   - "53:53/tcp"
+    #   - "8080:8080/tcp"
+    volumes:
+      - gohole_data:/app/data
+      - ./config.yaml:/app/config.yaml:ro
+    cap_add:
+      - NET_BIND_SERVICE           # Allow binding to port 53
+
+volumes:
+  gohole_data:

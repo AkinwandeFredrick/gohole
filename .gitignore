@@ -1,0 +1,8 @@
+gohole
+*.db
+*.db-shm
+*.db-wal
+/data/
+/tmp/
+.env
+*.local.yaml
