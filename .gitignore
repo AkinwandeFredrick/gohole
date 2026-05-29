@@ -6,3 +6,6 @@ gohole
 /tmp/
 .env
 *.local.yaml
+config.yaml
+gohole.db
+*.log
