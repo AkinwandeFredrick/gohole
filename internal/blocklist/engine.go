@@ -315,6 +315,24 @@ func (e *Engine) CheckDomain(domain string) map[string]interface{} {
 	}
 }
 
+// GetSources returns metadata for all blocklists
+func (e *Engine) GetSources() []map[string]interface{} {
+	e.mu.RLock()
+	defer e.mu.RUnlock()
+
+	sources := make([]map[string]interface{}, 0)
+	for _, meta := range e.listMeta {
+		sources = append(sources, map[string]interface{}{
+			"name":         meta.Name,
+			"url":          meta.URL,
+			"domain_count": meta.DomainCount,
+			"last_updated": meta.LastUpdated,
+			"enabled":      meta.Enabled,
+		})
+	}
+	return sources
+}
+
 func (e *Engine) StartAutoUpdate(ctx context.Context, cfg config.BlocklistConfig) {
 	ticker := time.NewTicker(cfg.UpdateInterval)
 	defer ticker.Stop()

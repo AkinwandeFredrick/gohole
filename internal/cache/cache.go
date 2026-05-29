@@ -110,6 +110,25 @@ func (c *Cache) Stats() map[string]interface{} {
 	}
 }
 
+// Size returns the current number of items in the cache
+func (c *Cache) Size() (int, error) {
+	c.mu.RLock()
+	defer c.mu.RUnlock()
+	return len(c.items), nil
+}
+
+// HitRate returns the cache hit rate as a percentage
+func (c *Cache) HitRate() (float64, error) {
+	c.mu.RLock()
+	defer c.mu.RUnlock()
+
+	total := c.hits + c.misses
+	if total == 0 {
+		return 0, nil
+	}
+	return float64(c.hits) / float64(total) * 100, nil
+}
+
 func (c *Cache) Flush() {
 	c.mu.Lock()
 	defer c.mu.Unlock()
