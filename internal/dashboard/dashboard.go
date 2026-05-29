@@ -267,7 +267,13 @@ func (d *Dashboard) handleCache(w http.ResponseWriter, r *http.Request) {
 }
 
 func (d *Dashboard) handleTimeline(w http.ResponseWriter, r *http.Request) {
-	data := d.cfg.QueryLogger.GetTimeline(60)
+	data, err := d.cfg.QueryLogger.GetTimeline(minutes)
+if err != nil {
+    // Handle the error or return it depending on your function signature
+    data = []map[string]interface{}{} 
+}
+
+
 	writeJSON(w, data)
 }
 
