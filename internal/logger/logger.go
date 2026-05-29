@@ -311,16 +311,7 @@ func (l *Logger) GetQueriesOverTime(buckets int, since time.Duration) ([]map[str
 
 	return result, nil
 }
-
 // GetTimeline returns query timeline data for the last N minutes
-func (l *Logger) GetTimeline(minutes int) []map[string]interface{} {
-	return l.getTimelineData(minutes)
-}
-
-func (l *Logger) getTimelineData(minutes int) []map[string]interface{} {
-	data, err := l.GetQueriesOverTime(minutes, time.Duration(minutes)*time.Minute)
-	if err != nil {
-		return []map[string]interface{}{}
-	}
-	return data
-}
+func (l *Logger) GetTimeline(minutes int) ([]map[string]interface{}, error) {
+	return l.GetQueriesOverTime(minutes, time.Duration(minutes)*time.Minute)
+} 
