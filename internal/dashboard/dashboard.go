@@ -267,7 +267,7 @@ func (d *Dashboard) handleCache(w http.ResponseWriter, r *http.Request) {
 }
 
 func (d *Dashboard) handleTimeline(w http.ResponseWriter, r *http.Request) {
-	data, err := d.cfg.QueryLogger.GetTimeline(minutes)
+	data, err := d.cfg.QueryLogger.GetTimeline(buckets)
 if err != nil {
     // Handle the error or return it depending on your function signature
     data = []map[string]interface{}{} 
@@ -489,4 +489,3 @@ const loginHTML = `<!DOCTYPE html>
 </body>
 </html>`
 
-const dashboardHTML = `<!-- Placeholder dashboard HTML -->`
