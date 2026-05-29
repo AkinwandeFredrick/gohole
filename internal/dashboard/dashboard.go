@@ -213,7 +213,7 @@ func (d *Dashboard) handleStats(w http.ResponseWriter, r *http.Request) {
 	writeJSON(w, map[string]any{
 		"total_queries":   stats.TotalQueries,
 		"blocked_queries": stats.BlockedQueries,
-		"blocked_percent": stats.BlockedPercent,
+		"blocked_percent": stats.PercentBlocked,
 		"total_domains":   d.cfg.Blocklist.TotalBlocked(),
 		"cache_size":      cacheSize,
 		"cache_hit_rate":  hitRate,
@@ -253,8 +253,8 @@ func (d *Dashboard) handleBlocklists(w http.ResponseWriter, r *http.Request) {
 
 func (d *Dashboard) handleCheck(w http.ResponseWriter, r *http.Request) {
 	domain := r.URL.Query().Get("domain")
-	blocked := d.cfg.Blocklist.IsBlocked(domain)
-	writeJSON(w, map[string]any{"domain": domain, "blocked": blocked})
+	blocked, source := d.cfg.Blocklist.IsBlocked(domain)
+	writeJSON(w, map[string]any{"domain": domain, "blocked": blocked, "source": source})
 }
 
 func (d *Dashboard) handleCache(w http.ResponseWriter, r *http.Request) {
@@ -482,3 +482,5 @@ const loginHTML = `<!DOCTYPE html>
 </div>
 </body>
 </html>`
+
+const dashboardHTML = `<!-- Placeholder dashboard HTML -->`
