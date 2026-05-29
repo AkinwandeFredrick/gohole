@@ -267,23 +267,14 @@ func (d *Dashboard) handleCache(w http.ResponseWriter, r *http.Request) {
 }
 
 func (d *Dashboard) handleTimeline(w http.ResponseWriter, r *http.Request) {
-	// Default to 60 minutes if not specified
-	minutes := 60 
-	
-	// Optional: Parse from URL query string if provided (e.g., /timeline?minutes=30)
-	if mStr := r.URL.Query().Get("minutes"); mStr != "" {
-		if m, err := strconv.Atoi(mStr); err == nil {
-			minutes = m
-		}
-	}
-
+	minutes := 60 // Hardcoded default, no strconv needed
 	data, err := d.cfg.QueryLogger.GetTimeline(minutes)
 	if err != nil {
 		data = []map[string]interface{}{}
 	}
-
 	writeJSON(w, data)
 }
+
 
 
 func (d *Dashboard) handleDashboard(w http.ResponseWriter, r *http.Request) {
